@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #1e293b;
+      color: white;
+      font-family: Arial, sans-serif;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    #start {
+      background: #22c55e;
+      color: white;
+    }
+
+    #stop {
+      background: #ef4444;
+      color: white;
+    }
+
+    #reset {
+      background: #3b82f6;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="display">00:00:00</h1>
+  <div class="buttons">
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <button id="reset">Reset</button>
+  </div>
+
+  <script>
+    let [hours, minutes, seconds] = [0, 0, 0];
+    let display = document.getElementById("display");
+    let timer = null;
+
+    function stopwatch() {
+      seconds++;
+      if (seconds == 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes == 60) {
+          minutes = 0;
+          hours++;
+        }
+      }
+
+      let h = hours < 10 ? "0" + hours : hours;
+      let m = minutes < 10 ? "0" + minutes : minutes;
+      let s = seconds < 10 ? "0" + seconds : seconds;
+
+      display.innerText = `${h}:${m}:${s}`;
+    }
+
+    document.getElementById("start").addEventListener("click", () => {
+      if (timer !== null) {
+        clearInterval(timer);
+      }
+      timer = setInterval(stopwatch, 1000);
+    });
+
+    document.getElementById("stop").addEventListener("click", () => {
+      clearInterval(timer);
+    });
+
+    document.getElementById("reset").addEventListener("click", () => {
+      clearInterval(timer);
+      [hours, minutes, seconds] = [0, 0, 0];
+      display.innerText = "00:00:00";
+    });
+  </script>
+</body>
+</html>
